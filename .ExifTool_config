@@ -1,0 +1,29 @@
+%Image::ExifTool::UserDefined::analogexif = (
+  GROUPS => { 0 => 'XMP', 1 => 'XMP-analogexif', 2 => 'Image' },
+  NAMESPACE => { 'analogexif' => 'http://analogexif.sourceforge.net/ns/' },
+  WRITABLE => 'string',
+  DevelopProcess => {},
+  DevelopTime => {},
+  Developer => {},
+  DeveloperDilution => {},
+  DeveloperMaker => {},
+  Lab => {},
+  LabAddress => {},
+  RollId => {},
+  ExposureNumber => {},
+  FilmMaker => {},
+  Film => {},
+  ScannerMaker => {},
+  Scanner => {},
+  ScannerSoftware => {}
+);
+ 
+%Image::ExifTool::UserDefined = (
+  'Image::ExifTool::XMP::Main' => {
+    analogexif => {
+      SubDirectory => {
+        TagTable => 'Image::ExifTool::UserDefined::analogexif'
+      },
+    },
+  }
+);
