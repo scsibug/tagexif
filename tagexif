@@ -28,9 +28,12 @@ def main():
         print "Could not find profile "+profile
 
 def find_profile(name):
-  default_location = os.path.join(profile_dir,name+'.json')
+  full_name = name+'.json'
+  default_location = os.path.join(profile_dir,full_name)
   if (os.path.isfile(default_location)):
     return default_location
+  elif (os.path.isfile(full_name)):
+    return full_name
   else:
     return None
 
