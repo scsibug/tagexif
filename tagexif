@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+import argparse
+import os
+import sys
+from subprocess import call
+
+profile_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),"profiles")
+
+def main():
+  parse = argparse.ArgumentParser(description='Tag images with EXIF/XMP data',
+                            prog='tagexif',
+                            version='tagexif 0.1.0',
+                            usage='tagexif [options] [file ...]')
+  parse.add_argument('--profiles', help='comma separated list of json profiles to apply')
+  parse.add_argument('--rollid', help='set roll id')
+  parse.add_argument('--set_exposure', action='store_true', help='auto-set exposure number from filename')
+  parse.add_argument('files', nargs='+', default=sys.stdin)
+  a = parse.parse_args()
+  if a.profiles is not None:
+    profiles = (a.profiles).split(',')
+    for profile in profiles:
+      profile_path = find_profile(profile)
+      if profile_path is not None:
+        for f in a.files:
+          print "%s assigned profile %s" % (f, profile)
+          call(["exiftool", "-j="+profile_path, f])        
+      else:
+        print "Could not find profile "+profile
+
+def find_profile(name):
+  default_location = os.path.join(profile_dir,name+'.json')
+  if (os.path.isfile(default_location)):
+    return default_location
+  else:
+    return None
+
+if __name__ == '__main__':
+  main()
